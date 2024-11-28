@@ -7,9 +7,9 @@ services:
     volumes:
         - ./nginx:/etc/nginx/conf.d
         - ./logs/nginx:/var/log/nginx
-        - ./wordpress:/var/www/html
+        - ./sites:/var/www/html
     links:
-        - wordpress
+        - sites
     restart: always
 
   mysql:
@@ -29,7 +29,7 @@ services:
     ports:
         - '9000:9000'
     volumes:
-        - ./wordpress:/var/www/html
+        - ./sites:/var/www/html
         - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
         WORDPRESS_DB_NAME: dbase

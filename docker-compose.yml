@@ -6,10 +6,10 @@ services:
         - '80:80'
     volumes:
         - ./nginx:/etc/nginx/conf.d
-        - ./logs/nginx:/var/log/nginx
+        - ./nginx:/var/log/nginx
         - ./sites:/var/www/html
     links:
-        - sites
+        - wordpress
     restart: always
 
   mysql:
@@ -17,13 +17,9 @@ services:
     ports:
         - '3306:3306'
     volumes:
-        - ./db-data:/var/lib/mysql
-    environment:
-        MYSQL_ROOT_PASSWORD: Admin624600@
-        MYSQL_DATABASE: dbase
-        MYSQL_USER: dadenard
-        MYSQL_PASSWORD: Admin624600@
+        - ./mysql:/var/lib/mysql
     restart: always
+    
   wordpress:
     image: wordpress:php8.3-fpm
     ports:

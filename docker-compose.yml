@@ -14,12 +14,15 @@ services:
 
   mysql:
     image: mysql:latest
-    env_file:
-     - mysql.env
     ports:
         - '3306:3306'
     volumes:
         - ./mysql:/var/lib/mysql
+    environment:
+        MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+        MYSQL_DATABASE: ${DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
     
   wordpress:
@@ -30,10 +33,10 @@ services:
         - ./sites:/var/www/html
         - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
-        WORDPRESS_DB_NAME: dbase
-        WORDPRESS_DB_USER: dadenard
+        WORDPRESS_DB_NAME: ${DATABASE}
+        WORDPRESS_DB_USER: ${MYSQL_USER}
         WORDPRESS_DB_HOST: mysql
-        WORDPRESS_DB_PASSWORD: Admin624600@
+        WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
     links:
         - mysql
     restart: always

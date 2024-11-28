@@ -1,0 +1,49 @@
+services:
+
+  nginx:
+    image: nginx:latest
+    ports:
+        - '80:80'
+    volumes:
+        - ./nginx:/etc/nginx/conf.d
+        - ./logs/nginx:/var/log/nginx
+        - ./wordpress:/var/www/html
+    links:
+        - wordpress
+    restart: always
+
+  mysql:
+    image: mysql:latest
+    ports:
+        - '3306:3306'
+    volumes:
+        - ./db-data:/var/lib/mysql
+    environment:
+        MYSQL_ROOT_PASSWORD: Admin624600@
+        MYSQL_DATABASE: dbase
+        MYSQL_USER: dadenard
+        MYSQL_PASSWORD: Admin624600@
+    restart: always
+  wordpress:
+    image: wordpress:php8.3-fpm
+    ports:
+        - '9000:9000'
+    volumes:
+        - ./wordpress:/var/www/html
+        - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    environment:
+        WORDPRESS_DB_NAME: dbase
+        WORDPRESS_DB_USER: dadenard
+        WORDPRESS_DB_HOST: mysql
+        WORDPRESS_DB_PASSWORD: Admin624600@
+    links:
+        - mysql
+    restart: always
+  
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1

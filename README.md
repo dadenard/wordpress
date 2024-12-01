@@ -1,2 +1,2 @@
 # wordpress
-Wordpress + Nginx + phpfpm
+Wordpress + Nginx + phpfpm + phpmyadmin

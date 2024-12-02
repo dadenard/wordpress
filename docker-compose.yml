@@ -1,12 +1,11 @@
 services:
 
   nginx:
-    image: nginx:latest
+    build: ./nginx
     ports:
         - '80:80'
     volumes:
-        - ./nginx:/etc/nginx/conf.d
-        - ./nginx:/var/log/nginx
+        - ./log/nginx:/var/log/nginx
         - ./sites:/var/www/html
     links:
         - wordpress
@@ -18,6 +17,7 @@ services:
         - '3306:3306'
     volumes:
         - ./mysql:/var/lib/mysql
+        #- ./log/mysql:/var/log/mysql
     environment:
         MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
         MYSQL_DATABASE: ${DATABASE}
@@ -26,12 +26,12 @@ services:
     restart: always
     
   wordpress:
-    image: wordpress:php8.3-fpm
+    build: ./php
     ports:
         - '9000:9000'
     volumes:
         - ./sites:/var/www/html
-        - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+        #- ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
         WORDPRESS_DB_NAME: ${DATABASE}
         WORDPRESS_DB_USER: ${MYSQL_USER}

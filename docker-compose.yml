@@ -17,7 +17,6 @@ services:
         - '3306:3306'
     volumes:
         - ./mysql:/var/lib/mysql
-        #- ./log/mysql:/var/log/mysql
     environment:
         MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
         MYSQL_DATABASE: ${DATABASE}
@@ -31,7 +30,6 @@ services:
         - '9000:9000'
     volumes:
         - ./sites:/var/www/html
-        #- ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
         WORDPRESS_DB_NAME: ${DATABASE}
         WORDPRESS_DB_USER: ${MYSQL_USER}
